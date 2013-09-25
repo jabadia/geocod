@@ -3,15 +3,19 @@
 var map, geocoder;
 
 require([
-        "dojo/parser", "dojo/ready", "dijit/layout/BorderContainer", "dijit/layout/ContentPane", "dojo/dom",
+        "dojo/parser", "dojo/ready", "dijit/layout/BorderContainer", "dijit/layout/ContentPane", "dojo/dom", "dojo/_base/Color",
         "esri/map", "esri/urlUtils","esri/arcgis/utils","esri/dijit/Legend","esri/dijit/Scalebar",
-        "esri/dijit/Geocoder", "esri/config", /*"esri/Graphic",*/
+        "esri/dijit/Geocoder", "esri/config",
+        "esri/symbols/PictureMarkerSymbol", "esri/symbols/SimpleMarkerSymbol", "esri/InfoTemplate",
+        "esri/graphic", "esri/layers/GraphicsLayer",
         "dojo/domReady!"
       ], 
 function(
-        parser,ready,BorderContainer,ContentPane,dom,
+        parser,ready,BorderContainer,ContentPane,dom,Color,
         Map,urlUtils,arcgisUtils,Legend,Scalebar,
-        Geocoder, esriConfig/*, Graphic*/
+        Geocoder, esriConfig,
+        PictureMarkerSymbol, SimpleMarkerSymbol, InfoTemplate,
+		Graphic, GraphicsLayer
       ) 
 {
 	var locatorUrl = "http://46.51.169.91/arcgis/rest/services/Toponimia/ToponimosXunta/GeocodeServer";
@@ -64,14 +68,17 @@ function(
 
 			if( candidates.length > 0 )
 			{	
-				var center = candidates[0].feature.geometry;
-				console.log(candidates[0]);
+				var candidate = candidates[0];
+				var center = candidate.feature.geometry;
 				map.centerAndZoom(center,16);
-/*
-				var marker = new Graphic( )
+
+				var markerSymbol = new PictureMarkerSymbol('img/marker.png', 50,50);
+				markerSymbol.setOffset(-25,0);
+				var infoTemplate = new InfoTemplate();
+				var marker = new Graphic(center, markerSymbol, candidate.feature.attributes);
+				console.log(center);
 				map.graphics.clear();
 				map.graphics.add(marker);
-				*/
 			}
 		}
 	});
