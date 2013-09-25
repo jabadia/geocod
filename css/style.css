@@ -1,0 +1,52 @@
+html {
+	font-size: 12px;
+	line-height: 16px;
+	font-family: verdana,helvetica;              	
+}
+
+html, body, #map {
+	height:100%;
+	width:100%;
+	margin:0;
+	padding:0;
+}
+
+#search {
+	display: block;
+	position: absolute;
+	z-index: 2;
+	top: 20px;
+	left: 74px;
+}
+
+.simpleGeocoder .esriGeocoder input
+{
+	font-family: verdana;
+	font-size: 22px;
+	line-height: normal;
+}
+
+.simpleGeocoder .esriGeocoderMultiple input
+{
+	width: 310px;	
+}
+
+.simpleGeocoder .esriGeocoderContainer
+{
+	width: 395px;
+}
+
+.simpleGeocoder .esriGeocoderIcon
+{
+	margin-top: 13px !important;
+}
+
+.simpleGeocoder .esriGeocoderSearch
+{
+	margin-left: 12px !important;
+}
+
+#map, #search
+{
+	/*opacity: 0;*/
+}
