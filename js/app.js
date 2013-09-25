@@ -18,7 +18,7 @@ function(
 		Graphic, GraphicsLayer
       ) 
 {
-	var locatorUrl = "http://46.51.169.91/arcgis/rest/services/Toponimia/ToponimosXunta/GeocodeServer";
+	var locatorUrl = "http://46.51.169.91/arcgis/rest/services/Toponimia/Toponimos/GeocodeServer";
 	//var webmapid = "e91f3b27396747b1b1bef44c573b92d3";
 	var webmapid = "16ce0344d96c45f08b2724ee8f78f4c6";
 	/*
@@ -48,7 +48,8 @@ function(
 				url: locatorUrl, 
 				name: "Topónimos de Galicia", 
 				singleLineFieldName: "SingleLinePlaceName",
-				placeholder: "introduzca un topónimo"
+				placeholder: "introduzca un topónimo",
+				outFields: "*"
 			},{
           		url: "http://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer",
           		name: "esri World Geocoder",
@@ -74,12 +75,39 @@ function(
 
 				var markerSymbol = new PictureMarkerSymbol('img/marker.png', 50,50);
 				markerSymbol.setOffset(-25,0);
-				var infoTemplate = new InfoTemplate();
-				var marker = new Graphic(center, markerSymbol, candidate.feature.attributes);
+				var infoTemplate = new InfoTemplate("Resultado", "${Name}");
+				var marker = new Graphic(center, markerSymbol, candidate.feature.attributes,infoTemplate);
 				console.log(center);
 				map.graphics.clear();
 				map.graphics.add(marker);
 			}
 		}
+
+		/*
+		// transparencia gradual de la capa topográfica
+		
+		var topoLayer = null;
+
+		response.itemInfo.itemData.operationalLayers.forEach(function(layer)
+		{
+			if( layer.title == "World Topographic Map" )
+				topoLayer = map.getLayer(layer.id);
+		});
+
+		map.on('zoom-end',function(evt)
+		{
+			if( ! topoLayer )
+				return;
+
+			if(evt.level == 14)
+				topoLayer.setOpacity(0.25);
+			else if(evt.level == 13)
+				topoLayer.setOpacity(0.5);			
+			else if(evt.level == 12)
+				topoLayer.setOpacity(0.75);
+			else
+				topoLayer.setOpacity(1.0);
+		});
+		*/
 	});
 });
