@@ -5,16 +5,16 @@ var map, geocoder;
 require([
         "dojo/parser", "dojo/ready", "dijit/layout/BorderContainer", "dijit/layout/ContentPane", "dojo/dom",
         "esri/map", "esri/urlUtils","esri/arcgis/utils","esri/dijit/Legend","esri/dijit/Scalebar",
-        "esri/dijit/Geocoder", "esri/config",
+        "esri/dijit/Geocoder", "esri/config", /*"esri/Graphic",*/
         "dojo/domReady!"
       ], 
 function(
         parser,ready,BorderContainer,ContentPane,dom,
         Map,urlUtils,arcgisUtils,Legend,Scalebar,
-        Geocoder, esriConfig
+        Geocoder, esriConfig/*, Graphic*/
       ) 
 {
-	var locatorUrl = "http://46.51.169.91/arcgis/rest/services/Toponimia/ToponimosGalicia/GeocodeServer";
+	var locatorUrl = "http://46.51.169.91/arcgis/rest/services/Toponimia/ToponimosXunta/GeocodeServer";
 	//var webmapid = "e91f3b27396747b1b1bef44c573b92d3";
 	var webmapid = "16ce0344d96c45f08b2724ee8f78f4c6";
 	/*
@@ -67,6 +67,11 @@ function(
 				var center = candidates[0].feature.geometry;
 				console.log(candidates[0]);
 				map.centerAndZoom(center,16);
+/*
+				var marker = new Graphic( )
+				map.graphics.clear();
+				map.graphics.add(marker);
+				*/
 			}
 		}
 	});
