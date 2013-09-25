@@ -50,3 +50,32 @@ html, body, #map {
 {
 	/*opacity: 0;*/
 }
+
+/*
+@-webkit-keyframes
+pulse
+{
+	0%
+	{
+		opacity: 0.2;
+
+	}
+	50%
+	{
+		opacity: 1.0;
+
+	}
+	100%
+	{
+		opacity: 0.2;
+
+	}
+}
+
+#map_graphics_layer {
+	-webkit-animation-duration: 2s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-name: pulse;
+	-webkit-animation-timing-function: linear;
+}
+*/
