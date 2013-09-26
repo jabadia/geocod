@@ -18,7 +18,7 @@ function(
 		Graphic, GraphicsLayer
       ) 
 {
-	var locatorUrl = "http://46.51.169.91/arcgis/rest/services/Toponimia/Toponimos/GeocodeServer";
+	var locatorUrl = "http://46.51.169.91/arcgis/rest/services/Toponimia/XuntaToponimos/GeocodeServer";
 	//var webmapid = "e91f3b27396747b1b1bef44c573b92d3";
 	var webmapid = "16ce0344d96c45f08b2724ee8f78f4c6";
 	/*
@@ -65,13 +65,29 @@ function(
 		function goToResult(evt)
 		{
 			console.log(evt);
+			if( evt.result == undefined && evt.results == undefined )
+			{
+				console.log('ignoring event');
+				return;				
+			}
 			var candidates = evt.results? evt.results.results : [evt.result];
+
+			candidates.sort( function(a,b) { return (a.feature.attributes.Type - b.feature.attributes.Type); });
 
 			if( candidates.length > 0 )
 			{	
 				var candidate = candidates[0];
 				var center = candidate.feature.geometry;
-				map.centerAndZoom(center,16);
+				var zoomLevel = 16;
+
+				if( candidate.feature.attributes.Type == "1")
+					zoomLevel = 14
+				else if( candidate.feature.attributes.Type == "2")
+					zoomLevel = 15
+				else if( candidate.feature.attributes.Type == "7")
+					zoomLevel = 17;
+
+				map.centerAndZoom(center,zoomLevel);
 
 				var markerSymbol = new PictureMarkerSymbol('img/marker.png', 50,50);
 				markerSymbol.setOffset(-25,0);
@@ -82,6 +98,21 @@ function(
 				map.graphics.add(marker);
 			}
 		}
+
+		var labelsLayer = null;
+
+		response.itemInfo.itemData.operationalLayers.forEach(function(layer)
+		{
+			console.log(layer.title);
+			if( layer.title == "ToponimosOrto" )
+				labelsLayer = map.getLayer(layer.id);
+		});
+
+		labelsLayer.hide();
+
+		/*
+		desactivar las etiquetas 
+		*/
 
 		/*
 		// transparencia gradual de la capa topográfica
