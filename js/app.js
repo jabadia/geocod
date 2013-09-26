@@ -108,7 +108,7 @@ function(
 				labelsLayer = map.getLayer(layer.id);
 		});
 
-		labelsLayer.hide();
+		//labelsLayer.hide();
 
 		/*
 		desactivar las etiquetas 
